@@ -1,0 +1,19 @@
+/paleteria
+│
+├── /database
+│   ├── paleteria_db.sql          # Script completo de la base de datos
+│   ├── triggers_procedures.sql   # Triggers y procedimientos almacenados
+│   └── datos_iniciales.sql       # Datos de ejemplo
+│
+├── /src
+│   ├── database.py               # Conexión y funciones básicas de DB
+│   ├── inventario.py             # Clases para gestión de inventario
+│   ├── produccion.py             # Clases para gestión de recetas
+│   ├── ventas.py                 # Clases para gestión de ventas
+│   ├── finanzas.py               # Clases para gestión financiera
+│   ├── reportes.py               # Generación de reportes y gráficos
+│   ├── main.py                   # Punto de entrada de la aplicación
+│   └── ui.py                     # Interfaz gráfica principal
+│
+├── /backups                      # Directorio para backups automáticos
+└── requirements.txt              # Dependencias del proyecto
