@@ -1,33 +1,36 @@
-import mysql.connector
+from database import Database
+from inventario import Inventario
+from ui import UI
+import sys
 
-def conectar():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="marlen17",
-        database="paleteria_db"
-    )
+def main():
+    print("Sistema de Gestión de Paletería - DINOSIS")
+    
+    # Inicializar la conexión a la base de datos
+    db = Database()
+    conexion = db.connect()
+    
+    if not conexion:
+        print("No se pudo conectar a la base de datos. Saliendo...")
+        sys.exit(1)
+    
+    try:
+        # Inicializar módulos con la conexión
+        inventario = Inventario(conexion)
+        ui = UI(inventario)
+        
+        # Mostrar menú principal
+        ui.mostrar_menu_principal()
+        
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+    finally:
+        # Asegurarse de cerrar la conexión al finalizar
+        db.disconnect()
 
-# Ejemplo: Insertar un ingrediente
-def agregar_ingrediente(nombre, cantidad, unidad, costo):
-    conexion = conectar()
-    cursor = conexion.cursor()
-    query = "INSERT INTO ingredientes (nombre, cantidad_disponible, unidad_medida, costo_por_unidad) VALUES (%s, %s, %s, %s)"
-    cursor.execute(query, (nombre, cantidad, unidad, costo))
-    conexion.commit()
-    conexion.close()
-
-def calcular_costo_receta(id_receta):
-    conexion = conectar()
-    cursor = conexion.cursor()
-    query = """
-    SELECT SUM(i.costo_por_unidad * ri.cantidad_utilizada) 
-    FROM receta_ingredientes ri
-    JOIN ingredientes i ON ri.id_ingrediente = i.id_ingrediente
-    WHERE ri.id_receta = %s
-    """
-    cursor.execute(query, (id_receta,))
-    costo = cursor.fetchone()[0]
-    conexion.close()
-    return costo
-
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nAplicación terminada por el usuario")
+        sys.exit(0)
