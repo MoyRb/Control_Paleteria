@@ -4,7 +4,7 @@ from ui import UI
 import sys
 
 def main():
-    print("Sistema de Gestión de Paletería - DINOSIS")
+    print("Sistema de Gestión de Paletería - Hedelmia")
     
     # Inicializar la conexión a la base de datos
     db = Database()
